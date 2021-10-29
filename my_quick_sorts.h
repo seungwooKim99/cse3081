@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef int _Cmpfun(const void *, const void *);
 void qsort_orig(void *, size_t, size_t, _Cmpfun *);

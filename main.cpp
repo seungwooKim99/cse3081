@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <cstdio>
+#include "my_quick_sorts.h"
 
 using namespace std;
 
@@ -108,8 +109,10 @@ int main() {
             qsort(Array, n, sizeof(ELEMENT), my_element_scores_compare);
             break;
         case 21:
+            qsort_orig(Array, n, sizeof(ELEMENT), my_element_scores_compare);
             break;
         case 22:
+            qsort_median_insert(Array, n, sizeof(ELEMENT), my_element_scores_compare);
             break;
         case 23:
             break;

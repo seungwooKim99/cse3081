@@ -61,7 +61,7 @@ void init_ELEMENT_array(ELEMENT *data, int n) {
     }
 }
 
-#define N_MAX_ELEMENTS 10
+#define N_MAX_ELEMENTS 10240
 #define PRINT_DATA
 
 int main() {

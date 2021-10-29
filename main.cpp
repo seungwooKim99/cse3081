@@ -93,6 +93,7 @@ int main() {
     fgets(buffer, 256, fp); // output
     //printf("output -> buffer[0]: %s\n", buffer);
 
+    printf("*** Function Number : %d\n", fnc_num);
     printf("*** Array size: %d\n", n);
 
     init_ELEMENT_array(Array, n);
@@ -115,6 +116,7 @@ int main() {
             qsort_median_insert(Array, n, sizeof(ELEMENT), my_element_scores_compare);
             break;
         case 23:
+            qsort_median_insert_iter(Array, n, sizeof(ELEMENT), my_element_scores_compare);
             break;
     }
 

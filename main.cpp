@@ -68,12 +68,12 @@ int main() {
     int fnc_num, n;
     int i;
     char *ptr; //strtol pointer
-    //ELEMENT Array[N_MAX_ELEMENTS];
     ELEMENT *Array;
-    //ELEMENT Array2[N_MAX_ELEMENTS];
 
     FILE *fp = fopen("HW2_commands.txt", "r");
     char *buffer = (char *)malloc(256 * sizeof(char));
+
+    char input_name[50], output_name[50];
 
     //fp = fopen("HW2_commands.txt", "r");
     if ( fp == NULL ){
@@ -86,16 +86,31 @@ int main() {
     fgets(buffer, 256, fp); // n
     n = strtol(buffer, &ptr, 10);
 
-    fgets(buffer, 256, fp); // input
+    fgets(input_name, 256, fp); // input
+    if (input_name[strlen(input_name) - 1] == '\n'){
+        input_name[strlen(input_name) - 1] = '\0';
+    }
 
-    fgets(buffer, 256, fp); // output
+    fgets(output_name, 256, fp); // output
+    if (output_name[strlen(output_name) - 1] == '\n'){
+        output_name[strlen(output_name) - 1] = '\0';
+    }
+    fclose(fp);
 
     printf("*** Function Number : %d\n", fnc_num);
     printf("*** Array size: %d\n", n);
 
     Array = (ELEMENT*)malloc(sizeof(ELEMENT)*n);
 
-    init_ELEMENT_array(Array, n);
+    // bin에서 읽어오기
+    FILE *fp_input = fopen(input_name, "r");
+    for(i=0;i<n;i++){
+        fread(Array+i, sizeof(ELEMENT), 1, fp_input);
+    }
+    fclose(fp_input);
+
+    // test에서만 씀!
+    //init_ELEMENT_array(Array, n);
 
 #ifdef PRINT_DATA
     printf("* Data before sort: ");
@@ -125,6 +140,12 @@ int main() {
         printf(" ([%u], %f, 0%s) ", Array[i].score, Array[i].data[0], Array[i].comments);
     printf("\n\n");
 #endif
+
+    FILE *fp_output = fopen(output_name, "w");
+    for(i=0;i<n;i++){
+        fwrite(Array+i, sizeof(ELEMENT), 1, fp_output);
+    }
+    fclose(fp_output);
 
     free(Array);
     return 0;

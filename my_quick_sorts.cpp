@@ -87,8 +87,7 @@ void qsort_orig(void * base, size_t n, size_t size, _Cmpfun * cmp) {
 void qsort_with_median(void *base, size_t n, size_t size, _Cmpfun *cmp){
     if ( n < M ) return;
     //Divide
-    size_t right_size = 0;
-    size_t left = 0;
+    size_t right_size = 1;
     size_t right = n-1;
     char* q_left = (char*)base;
     char* q_right = q_left + size*right;
@@ -125,21 +124,18 @@ void qsort_median_insert(void * base, size_t n, size_t size, _Cmpfun * cmp) {
     qsort_with_median(base, n, size, cmp);
     insertion_sort(base, n, size, cmp);
 }
-void qsort_median_insert_iter(void * base, size_t n, size_t size, _Cmpfun * cmp) {
+
+void qsort_with_median_and_iter(void * base, size_t n, size_t size, _Cmpfun * cmp) {
+    if ( n < M ) return;
     //Divide
     size_t right_size = 1;
-    size_t left = 0;
     size_t right = n-1;
     char* q_left = (char*)base;
     char* q_right = q_left + size*right;
     char* q_mid = q_left + size*(right/2);
 
-    // Base case
-    // 개수가 1이면 그대로 retrun
-    // 개수가 2이면 두개를 비교후 SWAP
-    if(n == 1){ return; }
-    else if(n == 2){ compexch(q_left, q_right, size, cmp); return; }
-
+    // left, mid, right중 median을 pivot으로 둠
+    // pivot에 해당하는 값은 left+size로 이동
     exch(q_left+size, q_mid, size);
     compexch(q_left, q_left + size, size, cmp);
     compexch(q_left, q_right, size, cmp);
@@ -162,15 +158,16 @@ void qsort_median_insert_iter(void * base, size_t n, size_t size, _Cmpfun * cmp)
 
     if (left_size >= right_size) {
         insertion_sort(base, left_size, size, cmp);
-        if (right_size > 0){
-            qsort_median_insert_iter(q_pivot + size, right_size, size, cmp);
-        }
+        qsort_with_median_and_iter(q_pivot + size, right_size, size, cmp);
     }
     else {
         insertion_sort(q_pivot + size, right_size, size, cmp);
-        if (left_size > 0){
-            qsort_median_insert_iter(base, left_size, size, cmp);
-        }
+        qsort_with_median_and_iter(base, left_size, size, cmp);
     }
+}
+
+void qsort_median_insert_iter(void * base, size_t n, size_t size, _Cmpfun * cmp) {
+    qsort_with_median_and_iter(base, n, size, cmp);
+    insertion_sort(base, n, size, cmp);
 }
 

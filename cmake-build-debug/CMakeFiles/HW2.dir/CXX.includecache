@@ -6,7 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/Users/seungwookim/Desktop/ksw/Sogang/4학기/알고리즘설계와분석/과제/HW2/my_quick_sorts.cpp
+/Users/seungwookim/Desktop/ksw/Sogang/4학기/알고리즘설계와분석/과제/HW2/main.cpp
+iostream
+-
+stdlib.h
+-
+stdio.h
+-
+cstdio
+-
 my_quick_sorts.h
 /Users/seungwookim/Desktop/ksw/Sogang/4학기/알고리즘설계와분석/과제/HW2/my_quick_sorts.h
 

@@ -8,15 +8,17 @@
 
 void exch(char* a, char* b, size_t size) {
     //SWAP a, b
-    char buffer[MAX_BUF];
-    char* q1 = a;
-    char* q2 = b;
-    size_t	m, ms;
-    for(ms=size; 0<ms; ms-=m, q1+=m, q2+=m) {
-        m = (ms < sizeof(buffer)) ? ms : sizeof(buffer);
-        memcpy(buffer, q1, size);
-        memcpy(q1, q2, size);
-        memcpy(q2, buffer, size);
+    if (a != b){
+        char buffer[MAX_BUF];
+        char* q1 = a;
+        char* q2 = b;
+        size_t	m, ms;
+        for(ms=size; 0<ms; ms-=m, q1+=m, q2+=m) {
+            m = (ms < sizeof(buffer)) ? ms : sizeof(buffer);
+            memcpy(buffer, q1, size);
+            memcpy(q1, q2, size);
+            memcpy(q2, buffer, size);
+        }
     }
 }
 
@@ -132,6 +134,12 @@ void qsort_median_insert_iter(void * base, size_t n, size_t size, _Cmpfun * cmp)
     char* q_right = q_left + size*right;
     char* q_mid = q_left + size*(right/2);
 
+    // Base case
+    // 개수가 1이면 그대로 retrun
+    // 개수가 2이면 두개를 비교후 SWAP
+    if(n == 1){ return; }
+    else if(n == 2){ compexch(q_left, q_right, size, cmp); return; }
+
     exch(q_left+size, q_mid, size);
     compexch(q_left, q_left + size, size, cmp);
     compexch(q_left, q_right, size, cmp);
@@ -152,13 +160,15 @@ void qsort_median_insert_iter(void * base, size_t n, size_t size, _Cmpfun * cmp)
 
     size_t left_size = n - right_size - 1;
 
-    if (left_size > 0 && right_size > 0){
-        if (left_size >= right_size) {
-            insertion_sort(base, left_size, size, cmp);
+    if (left_size >= right_size) {
+        insertion_sort(base, left_size, size, cmp);
+        if (right_size > 0){
             qsort_median_insert_iter(q_pivot + size, right_size, size, cmp);
         }
-        else {
-            insertion_sort(q_pivot + size, right_size, size, cmp);
+    }
+    else {
+        insertion_sort(q_pivot + size, right_size, size, cmp);
+        if (left_size > 0){
             qsort_median_insert_iter(base, left_size, size, cmp);
         }
     }

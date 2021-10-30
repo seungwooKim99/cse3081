@@ -68,7 +68,8 @@ int main() {
     int fnc_num, n;
     int i;
     char *ptr; //strtol pointer
-    ELEMENT Array[N_MAX_ELEMENTS];
+    //ELEMENT Array[N_MAX_ELEMENTS];
+    ELEMENT *Array;
     //ELEMENT Array2[N_MAX_ELEMENTS];
 
     FILE *fp = fopen("HW2_commands.txt", "r");
@@ -81,20 +82,18 @@ int main() {
 
     fgets(buffer, 256, fp); // 함수의 번호
     fnc_num = strtol(buffer, &ptr, 10);
-    //printf("f_num -> buffer[0]: %d\n", fnc_num);
 
     fgets(buffer, 256, fp); // n
     n = strtol(buffer, &ptr, 10);
-    //printf("n -> buffer[0]: %d\n", n);
 
     fgets(buffer, 256, fp); // input
-    //printf("input -> buffer[0]: %s\n", buffer);
 
     fgets(buffer, 256, fp); // output
-    //printf("output -> buffer[0]: %s\n", buffer);
 
     printf("*** Function Number : %d\n", fnc_num);
     printf("*** Array size: %d\n", n);
+
+    Array = (ELEMENT*)malloc(sizeof(ELEMENT)*n);
 
     init_ELEMENT_array(Array, n);
 
@@ -127,5 +126,6 @@ int main() {
     printf("\n\n");
 #endif
 
+    free(Array);
     return 0;
 }
